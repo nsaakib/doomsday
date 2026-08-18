@@ -147,6 +147,18 @@
     font-size: 14.5px;
   }
   .item.checked span { color: #b8b8b2; }
+  .upcoming-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffb020;
+    background: rgba(255,176,32,0.12);
+    border: 1px solid rgba(255,176,32,0.4);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 10px;
+  }
   footer {
     text-align: center;
     color: #6b6b66;
@@ -209,7 +221,7 @@ const sagas = [
     phases: [
       {group:"Phase 4", theme:"linear-gradient(90deg,#5c1a1a,#1a1a1a)", items:["Black Widow","Shang-Chi and the Legend of the Ten Rings","Eternals","Spider-Man: No Way Home","Doctor Strange in the Multiverse of Madness","Thor: Love and Thunder","Black Panther: Wakanda Forever","WandaVision","The Falcon and the Winter Soldier","Loki","What If...?","Hawkeye","Moon Knight","Ms. Marvel","She-Hulk"]},
       {group:"Phase 5", theme:"linear-gradient(90deg,#2f4a2f,#6b3fa0)", items:["Ant-Man and the Wasp: Quantumania","Guardians of the Galaxy Vol. 3","The Marvels","Deadpool & Wolverine","Secret Invasion","Loki Season 2","Echo","Agatha All Along","Daredevil: Born Again","Ironheart"]},
-      {group:"Phase 6", theme:"linear-gradient(90deg,#1e3d2f,#2e6b4a)", items:["The Fantastic Four: First Steps","Spider-Man: Brand New Day"]}
+      {group:"Phase 6", theme:"linear-gradient(90deg,#1e3d2f,#2e6b4a)", items:["The Fantastic Four: First Steps","Spider-Man: Brand New Day","Avengers: Doomsday","Avengers: Secret Wars"]}
     ]
   }
 ];
@@ -236,9 +248,10 @@ function render(){
       g.items.forEach(name=>{
         const key = g.group+"|"+name;
         const checked = state[key];
+        const isUpcoming = (name === "Avengers: Doomsday" || name === "Avengers: Secret Wars");
         const row = document.createElement('div');
         row.className = 'item' + (checked ? ' checked' : '');
-        row.innerHTML = '<span>' + name + '</span>';
+        row.innerHTML = '<span>' + name + '</span>' + (isUpcoming ? '<span class="upcoming-badge">upcoming</span>' : '');
         groupsEl.appendChild(row);
       });
     });
