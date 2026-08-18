@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,18 +111,29 @@
     background: #e8433a;
     transition: width 0.3s;
   }
+  .saga-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 32px 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8433a;
+    color: #fff;
+  }
+  .saga-title:first-child { margin-top: 0; }
   .group-title {
     font-size: 15px;
     font-weight: 700;
-    margin: 22px 0 10px;
+    margin: 20px 0 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
     color: #fff;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
   }
   .group-title .tag {
     font-size: 10px;
-    background: #e8433a;
+    background: rgba(0,0,0,0.35);
     color: #fff;
     padding: 2px 8px;
     border-radius: 999px;
@@ -147,15 +158,15 @@
 <body>
 <div class="wrap">
   <h1>Road to Avengers: Doomsday</h1>
-  <div class="sub">তোমার MCU watchlist — সব দেখা শেষ করে থিয়েটারে যাও</div>
+  <div class="sub">MCU watchlist</div>
 
   <div class="countdown">
     <div class="label">Doomsday releases in</div>
     <div class="timer">
-      <div class="box"><div class="num" id="d">--</div><div class="unit">দিন</div></div>
-      <div class="box"><div class="num" id="h">--</div><div class="unit">ঘন্টা</div></div>
-      <div class="box"><div class="num" id="m">--</div><div class="unit">মিনিট</div></div>
-      <div class="box"><div class="num" id="s">--</div><div class="unit">সেকেন্ড</div></div>
+      <div class="box"><div class="num" id="d">--</div><div class="unit">days</div></div>
+      <div class="box"><div class="num" id="h">--</div><div class="unit">hours</div></div>
+      <div class="box"><div class="num" id="m">--</div><div class="unit">mins</div></div>
+      <div class="box"><div class="num" id="s">--</div><div class="unit">secs</div></div>
     </div>
     <div class="date-note">December 18, 2026 · theaters worldwide</div>
   </div>
@@ -184,40 +195,52 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-const data = [
-  {group:"Phase 1", items:["Iron Man","The Incredible Hulk","Iron Man 2","Thor","Captain America: The First Avenger","The Avengers"]},
-  {group:"Phase 2", items:["Iron Man 3","Thor: The Dark World","Captain America: The Winter Soldier","Guardians of the Galaxy","Avengers: Age of Ultron","Ant-Man"]},
-  {group:"Phase 3", items:["Captain America: Civil War","Doctor Strange","Guardians of the Galaxy Vol. 2","Spider-Man: Homecoming","Thor: Ragnarok","Black Panther","Avengers: Infinity War","Ant-Man and the Wasp","Captain Marvel","Avengers: Endgame","Spider-Man: Far From Home"]},
-  {group:"Phase 4", items:["Black Widow","Shang-Chi and the Legend of the Ten Rings","Eternals","Spider-Man: No Way Home","Doctor Strange in the Multiverse of Madness","Thor: Love and Thunder","Black Panther: Wakanda Forever","WandaVision","The Falcon and the Winter Soldier","Loki","What If...?","Hawkeye","Moon Knight","Ms. Marvel","She-Hulk"]},
-  {group:"Phase 5", items:["Ant-Man and the Wasp: Quantumania","Guardians of the Galaxy Vol. 3","The Marvels","Deadpool & Wolverine","Secret Invasion","Loki Season 2","Echo","Agatha All Along","Daredevil: Born Again","Ironheart"]},
-  {group:"Phase 6", items:["The Fantastic Four: First Steps","Spider-Man: Brand New Day","Avengers: Doomsday","Avengers: Secret Wars"]}
+const sagas = [
+  {
+    saga: "Infinity Saga",
+    phases: [
+      {group:"Phase 1", theme:"linear-gradient(90deg,#8a1f1f,#c9932b)", items:["Iron Man","The Incredible Hulk","Iron Man 2","Thor","Captain America: The First Avenger","The Avengers"]},
+      {group:"Phase 2", theme:"linear-gradient(90deg,#1d3a5f,#4a6fa5)", items:["Iron Man 3","Thor: The Dark World","Captain America: The Winter Soldier","Guardians of the Galaxy","Avengers: Age of Ultron","Ant-Man"]},
+      {group:"Phase 3", theme:"linear-gradient(90deg,#3b1f5c,#6b3fa0)", items:["Captain America: Civil War","Doctor Strange","Guardians of the Galaxy Vol. 2","Spider-Man: Homecoming","Thor: Ragnarok","Black Panther","Avengers: Infinity War","Ant-Man and the Wasp","Captain Marvel","Avengers: Endgame","Spider-Man: Far From Home"]}
+    ]
+  },
+  {
+    saga: "Multiverse Saga",
+    phases: [
+      {group:"Phase 4", theme:"linear-gradient(90deg,#5c1a1a,#1a1a1a)", items:["Black Widow","Shang-Chi and the Legend of the Ten Rings","Eternals","Spider-Man: No Way Home","Doctor Strange in the Multiverse of Madness","Thor: Love and Thunder","Black Panther: Wakanda Forever","WandaVision","The Falcon and the Winter Soldier","Loki","What If...?","Hawkeye","Moon Knight","Ms. Marvel","She-Hulk"]},
+      {group:"Phase 5", theme:"linear-gradient(90deg,#2f4a2f,#6b3fa0)", items:["Ant-Man and the Wasp: Quantumania","Guardians of the Galaxy Vol. 3","The Marvels","Deadpool & Wolverine","Secret Invasion","Loki Season 2","Echo","Agatha All Along","Daredevil: Born Again","Ironheart"]},
+      {group:"Phase 6", theme:"linear-gradient(90deg,#1e3d2f,#2e6b4a)", items:["The Fantastic Four: First Steps","Spider-Man: Brand New Day","Avengers: Doomsday","Avengers: Secret Wars"]}
+    ]
+  }
 ];
 
-const watchedSeed = new Set([
-  "Iron Man","Iron Man 2","Thor","Captain America: The First Avenger","The Avengers",
-  "Iron Man 3","Thor: The Dark World","Captain America: The Winter Soldier","Guardians of the Galaxy","Avengers: Age of Ultron",
-  "Captain America: Civil War","Guardians of the Galaxy Vol. 2","Spider-Man: Homecoming","Thor: Ragnarok","Black Panther","Avengers: Infinity War"
-]);
+const data = sagas.flatMap(s => s.phases);
 
-const total = data.reduce((a,g)=>a+g.items.length,0);
 const state = {};
-data.forEach(g=>g.items.forEach(name=>{ state[g.group+"|"+name] = watchedSeed.has(name); }));
+data.forEach(g=>g.items.forEach(name=>{ state[g.group+"|"+name] = false; }));
 
 function render(){
   const groupsEl = document.getElementById('groups');
   groupsEl.innerHTML = '';
-  data.forEach(g=>{
-    const gTitle = document.createElement('div');
-    gTitle.className = 'group-title';
-    gTitle.innerHTML = g.group + ' <span class="tag">' + g.items.length + '</span>';
-    groupsEl.appendChild(gTitle);
-    g.items.forEach(name=>{
-      const key = g.group+"|"+name;
-      const checked = state[key];
-      const row = document.createElement('div');
-      row.className = 'item' + (checked ? ' checked' : '');
-      row.innerHTML = '<span>' + name + '</span>';
-      groupsEl.appendChild(row);
+  sagas.forEach(s=>{
+    const sagaTitle = document.createElement('div');
+    sagaTitle.className = 'saga-title';
+    sagaTitle.textContent = s.saga;
+    groupsEl.appendChild(sagaTitle);
+    s.phases.forEach(g=>{
+      const gTitle = document.createElement('div');
+      gTitle.className = 'group-title';
+      gTitle.style.background = g.theme;
+      gTitle.innerHTML = '<span>' + g.group + '</span><span class="tag">' + g.items.length + '</span>';
+      groupsEl.appendChild(gTitle);
+      g.items.forEach(name=>{
+        const key = g.group+"|"+name;
+        const checked = state[key];
+        const row = document.createElement('div');
+        row.className = 'item' + (checked ? ' checked' : '');
+        row.innerHTML = '<span>' + name + '</span>';
+        groupsEl.appendChild(row);
+      });
     });
   });
 }
