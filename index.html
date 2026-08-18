@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Road to Avengers: Doomsday</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0b0b0c;
+    color: #f0f0ec;
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 4px;
+    color: #e8433a;
+    letter-spacing: -0.5px;
+  }
+  .sub {
+    text-align: center;
+    color: #9a9a94;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .countdown {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(46,125,90,0.35), transparent 55%),
+      linear-gradient(180deg, #1c2420, #0e1210);
+    border: 1px solid #2f4a3c;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .countdown::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(120,190,150,0.06) 0px, rgba(120,190,150,0.06) 2px, transparent 2px, transparent 14px),
+      radial-gradient(ellipse at 50% 0%, rgba(90,160,120,0.25), transparent 60%);
+    pointer-events: none;
+  }
+  .countdown > * { position: relative; z-index: 1; }
+  .countdown .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8fb89e;
+    margin-bottom: 12px;
+  }
+  .timer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .timer .box {
+    background: rgba(20,32,26,0.7);
+    border: 1px solid #35503f;
+    border-radius: 10px;
+    padding: 10px 8px;
+    min-width: 62px;
+  }
+  .timer .num {
+    font-size: 26px;
+    font-weight: 700;
+    color: #d8f0e0;
+  }
+  .timer .unit {
+    font-size: 10px;
+    color: #8fb89e;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .date-note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #8fb89e;
+  }
+  .progress-card {
+    background: #131314;
+    border: 1px solid #2a2a2c;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #b8b8b2;
+    margin-bottom: 8px;
+  }
+  .bar-outer {
+    height: 8px;
+    background: #262628;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bar-inner {
+    height: 100%;
+    width: 0%;
+    background: #e8433a;
+    transition: width 0.3s;
+  }
+  .group-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-title .tag {
+    font-size: 10px;
+    background: #e8433a;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 10px 4px;
+    border-bottom: 1px solid #1f1f22;
+    font-size: 14.5px;
+  }
+  .item.checked span { color: #b8b8b2; }
+  footer {
+    text-align: center;
+    color: #6b6b66;
+    font-size: 12px;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Road to Avengers: Doomsday</h1>
+  <div class="sub">তোমার MCU watchlist — সব দেখা শেষ করে থিয়েটারে যাও</div>
+
+  <div class="countdown">
+    <div class="label">Doomsday releases in</div>
+    <div class="timer">
+      <div class="box"><div class="num" id="d">--</div><div class="unit">দিন</div></div>
+      <div class="box"><div class="num" id="h">--</div><div class="unit">ঘন্টা</div></div>
+      <div class="box"><div class="num" id="m">--</div><div class="unit">মিনিট</div></div>
+      <div class="box"><div class="num" id="s">--</div><div class="unit">সেকেন্ড</div></div>
+    </div>
+    <div class="date-note">December 18, 2026 · theaters worldwide</div>
+  </div>
+
+  <div id="groups"></div>
+
+  <footer>made for the road to Avengers: Doomsday</footer>
+</div>
+
+<script>
+// Countdown to Dec 18, 2026, 05:00 UTC
+const target = new Date("2026-12-18T05:00:00Z").getTime();
+function tick() {
+  const now = Date.now();
+  let diff = target - now;
+  if (diff < 0) diff = 0;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('d').textContent = d;
+  document.getElementById('h').textContent = String(h).padStart(2,'0');
+  document.getElementById('m').textContent = String(m).padStart(2,'0');
+  document.getElementById('s').textContent = String(s).padStart(2,'0');
+}
+tick();
+setInterval(tick, 1000);
+
+const data = [
+  {group:"Phase 1", items:["Iron Man","The Incredible Hulk","Iron Man 2","Thor","Captain America: The First Avenger","The Avengers"]},
+  {group:"Phase 2", items:["Iron Man 3","Thor: The Dark World","Captain America: The Winter Soldier","Guardians of the Galaxy","Avengers: Age of Ultron","Ant-Man"]},
+  {group:"Phase 3", items:["Captain America: Civil War","Doctor Strange","Guardians of the Galaxy Vol. 2","Spider-Man: Homecoming","Thor: Ragnarok","Black Panther","Avengers: Infinity War","Ant-Man and the Wasp","Captain Marvel","Avengers: Endgame","Spider-Man: Far From Home"]},
+  {group:"Phase 4", items:["Black Widow","Shang-Chi and the Legend of the Ten Rings","Eternals","Spider-Man: No Way Home","Doctor Strange in the Multiverse of Madness","Thor: Love and Thunder","Black Panther: Wakanda Forever","WandaVision","The Falcon and the Winter Soldier","Loki","What If...?","Hawkeye","Moon Knight","Ms. Marvel","She-Hulk"]},
+  {group:"Phase 5", items:["Ant-Man and the Wasp: Quantumania","Guardians of the Galaxy Vol. 3","The Marvels","Deadpool & Wolverine","Secret Invasion","Loki Season 2","Echo","Agatha All Along","Daredevil: Born Again","Ironheart"]},
+  {group:"Phase 6", items:["The Fantastic Four: First Steps","Spider-Man: Brand New Day","Avengers: Doomsday","Avengers: Secret Wars"]}
+];
+
+const watchedSeed = new Set([
+  "Iron Man","Iron Man 2","Thor","Captain America: The First Avenger","The Avengers",
+  "Iron Man 3","Thor: The Dark World","Captain America: The Winter Soldier","Guardians of the Galaxy","Avengers: Age of Ultron",
+  "Captain America: Civil War","Guardians of the Galaxy Vol. 2","Spider-Man: Homecoming","Thor: Ragnarok","Black Panther","Avengers: Infinity War"
+]);
+
+const total = data.reduce((a,g)=>a+g.items.length,0);
+const state = {};
+data.forEach(g=>g.items.forEach(name=>{ state[g.group+"|"+name] = watchedSeed.has(name); }));
+
+function render(){
+  const groupsEl = document.getElementById('groups');
+  groupsEl.innerHTML = '';
+  data.forEach(g=>{
+    const gTitle = document.createElement('div');
+    gTitle.className = 'group-title';
+    gTitle.innerHTML = g.group + ' <span class="tag">' + g.items.length + '</span>';
+    groupsEl.appendChild(gTitle);
+    g.items.forEach(name=>{
+      const key = g.group+"|"+name;
+      const checked = state[key];
+      const row = document.createElement('div');
+      row.className = 'item' + (checked ? ' checked' : '');
+      row.innerHTML = '<span>' + name + '</span>';
+      groupsEl.appendChild(row);
+    });
+  });
+}
+render();
+</script>
+</body>
+</html>
